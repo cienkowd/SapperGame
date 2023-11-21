@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -34,20 +35,27 @@ public class GameController extends Board{
     private Button createButton() {
         Button button = new Button();
         button.setMinSize(70, 70);
-        button.setOnMouseClicked(this::handleButtonClick);
+        button.setOnMouseClicked(event -> {
+            try {
+                handleButtonClick(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return button;
     }
 
-    private void handleButtonClick(MouseEvent event) {
+    private void handleButtonClick(MouseEvent event) throws IOException {
         Button clickedButton = (Button) event.getSource();
         if (event.getButton() == MouseButton.PRIMARY && whenYouCannotClickPrimary(clickedButton)) {
             handleLeftClick(clickedButton);
         }
         else if (event.getButton() == MouseButton.SECONDARY && whenYouCannotClickOrWantCancelFlag(clickedButton)) {
-            handleRightClick(clickedButton);
+            if(!(clickedButton.getId().equals("-2")))
+                handleRightClick(clickedButton);
         }
     }
-    private void handleLeftClick(Button button) {
+    private void handleLeftClick(Button button) throws IOException {
         if (button.getId().equals("0")) {
             showAroundWhenZero(button);
         }
@@ -56,43 +64,53 @@ public class GameController extends Board{
         }
     }
 
-    private void setTextForButton(Button button) {
+    private void setTextForButton(Button button) throws IOException {
         if (button.getId().equals("-1")) {
-            button.setStyle("-fx-font-size: 30px; -fx-background-color: #CC0000; -fx-text-fill: white;");
-            button.setText(button.getId());
+            String imagePath = "/mina.png";
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(50);
+            imageView.setFitHeight(50);
+
+            button.setGraphic(imageView);
             showAlert("BOOOOMMMMM", "Game Over!");
 
         }
+        else if(button.getId().equals("0")){
+            button.getStyleClass().add("button0");
+        }
         else if (button.getId().equals("1")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: blue;");
+            button.getStyleClass().add("button1");
         }
         else if (button.getId().equals("2")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: green;");
+            button.getStyleClass().add("button2");
         }
         else if (button.getId().equals("3")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: red;");
+            button.getStyleClass().add("button3");
         }
         else if (button.getId().equals("4")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #660099;");
+            button.getStyleClass().add("button4");
         }
         else if (button.getId().equals("5")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #660000;");
+            button.getStyleClass().add("button5");
         }
         else if (button.getId().equals("6")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-weight: bold; -fx-text-fill: #669966;");
+            button.getStyleClass().add("button6");
         }
         else if (button.getId().equals("7")) {
             button.setText(button.getId());
-            button.setStyle("-fx-font-weight: bold; -fx-text-fill: #006699;");
+            button.getStyleClass().add("button7");
         }
-        else
+        else if (button.getId().equals("8")) {
             button.setText(button.getId());
+            button.getStyleClass().add("button8");
+        }
     }
     private void handleRightClick(Button button) {
         String imagePath = "/flaga.png";
@@ -125,7 +143,7 @@ public class GameController extends Board{
         return true;
     }
 
-    private void showAlert(String title, String content) {
+    private void showAlert(String title, String content) throws IOException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -135,19 +153,25 @@ public class GameController extends Board{
         alertStage.initModality(Modality.APPLICATION_MODAL);
 
         alert.showAndWait();
+        Game.resetStage();
     }
 
-    private void showAroundWhenZero(Button button) {
+    private void showAroundWhenZero(Button button) throws IOException {
         int x = GridPane.getRowIndex(button);
         int y = GridPane.getColumnIndex(button);
         for(int  i = x-1; i <= x+1; i++) {
-            if(i >= 0 && i < 9)
-                for (int j = y-1; j <= y+1; j++)
-                    if (j >= 0 && j < 9) {
-                        Node node  = getNodeByRowColumnIndex(gridPane,i,j);
-                        if(node != null)
-                            setTextForButton((Button) node);
+            for (int j = y-1; j <= y+1; j++) {
+                if (j >= 0 && j < 9 && i >= 0 && i < 9) {
+                    Node node = getNodeByRowColumnIndex(gridPane, i, j);
+                    if (node != null && !(node.getId().equals("-2"))) {
+                        setTextForButton((Button) node);
+                        if (node.getId().equals("0")) {
+                            node.setId("-2");
+                            showAroundWhenZero((Button) node);
+                        }
                     }
+                }
+            }
         }
     }
 

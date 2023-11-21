@@ -3,7 +3,7 @@ package com.example.sappergame;
 import java.util.Random;
 
 public class Board {
-    private final int numberOfMines = 10;
+    private final int numberOfMines = 15;
     private final int boardWidth = 9;
     private final int boardLength = 9;
     private int[][] board;
@@ -31,12 +31,6 @@ public class Board {
 
     private boolean canPutTheMine(int x, int y) {
         if (board[x][y] == -1) {
-            return false;
-        }
-        if(x == 0 &&  y == 0 || x == 8 && y == 0) {
-            return false;
-        }
-        if(x == 0 &&  y == 8 || x == 8 && y == 8) {
             return false;
         }
         if(minesAround(x,y) == 8) {

@@ -1,0 +1,59 @@
+.button0 {
+    -fx-background-color: #D3D3D3; -fx-border-color: #778899;
+}
+.button1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: blue;
+    -fx-border-color: #778899
+}
+.button2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: green;
+    -fx-border-color: #778899
+}
+.button3 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+    -fx-border-color: #778899
+}
+.button4 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660099;
+    -fx-border-color: #778899
+}
+.button5 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660000;
+    -fx-border-color: #778899
+}
+.button6 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #669966;
+    -fx-border-color: #778899
+}
+.button7 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #006699;
+    -fx-border-color: #778899
+}
+.button8 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C66525;
+    -fx-border-color: #778899
+}

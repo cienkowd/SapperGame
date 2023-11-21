@@ -10,11 +10,24 @@ import java.io.IOException;
 public class Game extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 630, 630);
+        Game.stage = stage;
         stage.setTitle("Sapper");
-        stage.setScene(scene);
+        stage.setScene(createScene());
+        stage.setMinWidth(700);
+        stage.setMinHeight(700);
         stage.show();
+    }
+    public static Scene createScene() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("hello-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 700, 700);
+        scene.getStylesheets().add(Game.class.getResource("style.css").toString());
+        return scene;
+    }
+
+    public static Stage stage;
+
+    public static void resetStage() throws IOException {
+        Game.stage.setScene(createScene());
     }
 
     public static void main(String[] args) {
