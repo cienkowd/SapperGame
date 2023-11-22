@@ -3,9 +3,9 @@ package com.example.sappergame;
 import java.util.Random;
 
 public class Board {
-    private final int numberOfMines = 15;
-    private final int boardWidth = 9;
-    private final int boardLength = 9;
+    private final int numberOfMines = 99;
+    private final int boardWidth = 24;
+    private final int boardLength = 24;
     private int[][] board;
 
     public void generateBoard() {
@@ -71,5 +71,17 @@ public class Board {
 
     public String getValueOfIndexFromBoard(int x, int y) {
         return String.valueOf(board[x][y]);
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public int getBoardLength() {
+        return boardLength;
+    }
+
+    public int getNumberOfMines() {
+        return numberOfMines;
     }
 }

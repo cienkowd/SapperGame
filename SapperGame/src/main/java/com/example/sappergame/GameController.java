@@ -20,11 +20,14 @@ public class GameController extends Board{
 
     @FXML
     private GridPane gridPane;
+
     public void initialize() {
         Board board = new Board();
         board.generateBoard();
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
+        int a = getBoardWidth();
+        int b = getBoardLength();
+        for (int x = 0; x < a; x++) {
+            for (int y = 0; y < b; y++) {
                 Button button = createButton();
                 button.setId(board.getValueOfIndexFromBoard(x,y));
                 gridPane.add(button, x, y);
@@ -34,7 +37,7 @@ public class GameController extends Board{
 
     private Button createButton() {
         Button button = new Button();
-        button.setMinSize(70, 70);
+        button.setMinSize(30, 30);
         button.setOnMouseClicked(event -> {
             try {
                 handleButtonClick(event);
@@ -54,6 +57,7 @@ public class GameController extends Board{
             if(!(clickedButton.getId().equals("-2")))
                 handleRightClick(clickedButton);
         }
+        checkGameStatus();
     }
     private void handleLeftClick(Button button) throws IOException {
         if (button.getId().equals("0")) {
@@ -69,8 +73,8 @@ public class GameController extends Board{
             String imagePath = "/mina.png";
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(50);
-            imageView.setFitHeight(50);
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(20);
 
             button.setGraphic(imageView);
             showAlert("BOOOOMMMMM", "Game Over!");
@@ -81,34 +85,42 @@ public class GameController extends Board{
         }
         else if (button.getId().equals("1")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button1");
         }
         else if (button.getId().equals("2")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button2");
         }
         else if (button.getId().equals("3")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button3");
         }
         else if (button.getId().equals("4")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button4");
         }
         else if (button.getId().equals("5")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button5");
         }
         else if (button.getId().equals("6")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button6");
         }
         else if (button.getId().equals("7")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button7");
         }
         else if (button.getId().equals("8")) {
             button.setText(button.getId());
+            button.setId("-3");
             button.getStyleClass().add("button8");
         }
     }
@@ -116,8 +128,8 @@ public class GameController extends Board{
         String imagePath = "/flaga.png";
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(20);
+        imageView.setFitHeight(20);
 
         button.setGraphic(imageView);
     }
@@ -161,7 +173,7 @@ public class GameController extends Board{
         int y = GridPane.getColumnIndex(button);
         for(int  i = x-1; i <= x+1; i++) {
             for (int j = y-1; j <= y+1; j++) {
-                if (j >= 0 && j < 9 && i >= 0 && i < 9) {
+                if (j >= 0 && j < getBoardLength() && i >= 0 && i < getBoardWidth()) {
                     Node node = getNodeByRowColumnIndex(gridPane, i, j);
                     if (node != null && !(node.getId().equals("-2"))) {
                         setTextForButton((Button) node);
@@ -182,5 +194,36 @@ public class GameController extends Board{
             }
         }
         return null;
+    }
+
+    private void checkGameStatus() throws IOException {
+        int counterFlagOnMines = 0;
+        int counterClickedButtons = 0;
+        int fieldsInsteadOfMines = getBoardLength()*getBoardWidth() - getNumberOfMines();
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                String id = button.getId();
+
+                if (id.equals("-1") && button.getGraphic() != null) {
+                    counterFlagOnMines++;
+                }
+                if (id.equals("0") && button.getGraphic() == null) {
+                    return;
+                }
+                if(counterFlagOnMines == getNumberOfMines()) {
+                    showAlert("Congratulations!", "You've won!");
+                    return;
+                }
+                if((id.equals("-3") || id.equals("-2")) && button.getGraphic() == null) {
+                    counterClickedButtons++;
+                }
+                if(counterClickedButtons == fieldsInsteadOfMines) {
+                    showAlert("Congratulations!", "You've won!");
+                    return;
+                }
+
+            }
+        }
     }
 }
