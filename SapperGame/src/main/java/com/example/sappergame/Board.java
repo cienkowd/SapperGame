@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Board {
     private final int numberOfMines = 99;
-    private final int boardWidth = 24;
+    private final int boardWidth = 30;
     private final int boardLength = 24;
     private int[][] board;
 
@@ -44,7 +44,7 @@ public class Board {
          for(int  i = x-1; i <= x+1; i++) {
              if(i >= 0 && i < boardWidth)
                  for (int j = y-1; j <= y+1; j++)
-                     if (j >= 0 && j < boardWidth)
+                     if (j >= 0 && j < boardLength)
                          if (i != x || j != y)
                              if (board[i][j] == -1)
                                  mines++;

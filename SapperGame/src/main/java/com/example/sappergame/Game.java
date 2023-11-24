@@ -17,12 +17,7 @@ public class Game extends Application {
     }
     public static Scene createScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 800);
-//        stage.setMinWidth(720);
-//        stage.setMinHeight(720);
-//        stage.setMaxWidth(720);
-//        stage.setMaxHeight(720);
-//        stage.setResizable(false);
+        Scene scene = new Scene(fxmlLoader.load(), 980, 800);
         scene.getStylesheets().add(Game.class.getResource("style.css").toString());
         return scene;
     }

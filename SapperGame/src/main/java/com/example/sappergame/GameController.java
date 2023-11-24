@@ -21,6 +21,8 @@ public class GameController extends Board{
     @FXML
     private GridPane gridPane;
 
+    private boolean isFirstClick = true;
+
     public void initialize() {
         Board board = new Board();
         board.generateBoard();
@@ -33,6 +35,7 @@ public class GameController extends Board{
                 gridPane.add(button, x, y);
             }
         }
+
     }
 
     private Button createButton() {
@@ -73,8 +76,8 @@ public class GameController extends Board{
             String imagePath = "/mina.png";
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(20);
-            imageView.setFitHeight(20);
+            imageView.setFitWidth(13);
+            imageView.setFitHeight(13);
 
             button.setGraphic(imageView);
             showAlert("BOOOOMMMMM", "Game Over!");
@@ -128,8 +131,8 @@ public class GameController extends Board{
         String imagePath = "/flaga.png";
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(20);
-        imageView.setFitHeight(20);
+        imageView.setFitWidth(13);
+        imageView.setFitHeight(13);
 
         button.setGraphic(imageView);
     }
