@@ -3,7 +3,6 @@ package com.example.sappergame;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -30,16 +29,16 @@ public class GameController extends Board{
         int b = getBoardLength();
         for (int x = 0; x < a; x++) {
             for (int y = 0; y < b; y++) {
-                Button button = createButton();
-                button.setId(board.getValueOfIndexFromBoard(x,y));
+                MyButton button = createButton(x,y);
+                button.setValue(board.getValueOfIndexFromBoard(x,y));
                 gridPane.add(button, x, y);
             }
         }
 
     }
 
-    private Button createButton() {
-        Button button = new Button();
+    private MyButton createButton(int x, int y) {
+        MyButton button = new MyButton(x,y);
         button.setMinSize(30, 30);
         button.setOnMouseClicked(event -> {
             try {
@@ -52,18 +51,18 @@ public class GameController extends Board{
     }
 
     private void handleButtonClick(MouseEvent event) throws IOException {
-        Button clickedButton = (Button) event.getSource();
+        MyButton clickedButton = (MyButton) event.getSource();
         if (event.getButton() == MouseButton.PRIMARY && whenYouCannotClickPrimary(clickedButton)) {
             handleLeftClick(clickedButton);
         }
         else if (event.getButton() == MouseButton.SECONDARY && whenYouCannotClickOrWantCancelFlag(clickedButton)) {
-            if(!(clickedButton.getId().equals("-2")))
+            if(!(clickedButton.getValue() == -2))
                 handleRightClick(clickedButton);
         }
         checkGameStatus();
     }
-    private void handleLeftClick(Button button) throws IOException {
-        if (button.getId().equals("0")) {
+    private void handleLeftClick(MyButton button) throws IOException {
+        if (button.getValue() == 0) {
             showAroundWhenZero(button);
         }
         else {
@@ -71,8 +70,8 @@ public class GameController extends Board{
         }
     }
 
-    private void setTextForButton(Button button) throws IOException {
-        if (button.getId().equals("-1")) {
+    private void setTextForButton(MyButton button) throws IOException {
+        if (button.getValue() == -1) {
             String imagePath = "/mina.png";
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             ImageView imageView = new ImageView(image);
@@ -83,51 +82,51 @@ public class GameController extends Board{
             showAlert("BOOOOMMMMM", "Game Over!");
 
         }
-        else if(button.getId().equals("0")){
+        else if(button.getValue() == 0){
             button.getStyleClass().add("button0");
         }
-        else if (button.getId().equals("1")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 1) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button1");
         }
-        else if (button.getId().equals("2")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 2) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button2");
         }
-        else if (button.getId().equals("3")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 3) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button3");
         }
-        else if (button.getId().equals("4")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 4) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button4");
         }
-        else if (button.getId().equals("5")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 5) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button5");
         }
-        else if (button.getId().equals("6")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 6) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button6");
         }
-        else if (button.getId().equals("7")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 7) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button7");
         }
-        else if (button.getId().equals("8")) {
-            button.setText(button.getId());
-            button.setId("-3");
+        else if (button.getValue() == 8) {
+            button.setText(button.getValueAsString());
+            button.setValue(-3);
             button.getStyleClass().add("button8");
         }
     }
-    private void handleRightClick(Button button) {
+    private void handleRightClick(MyButton button) {
         String imagePath = "/flaga.png";
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
         ImageView imageView = new ImageView(image);
@@ -137,7 +136,7 @@ public class GameController extends Board{
         button.setGraphic(imageView);
     }
 
-    private boolean whenYouCannotClickPrimary(Button button) {
+    private boolean whenYouCannotClickPrimary(MyButton button) {
         if(button.getGraphic() != null) {
             return false;
         }
@@ -147,7 +146,7 @@ public class GameController extends Board{
         return true;
     }
 
-    private boolean whenYouCannotClickOrWantCancelFlag(Button button) {
+    private boolean whenYouCannotClickOrWantCancelFlag(MyButton button) {
         if(button.getGraphic() != null) {
             button.setGraphic(null);
             return false;
@@ -171,18 +170,18 @@ public class GameController extends Board{
         Game.resetStage();
     }
 
-    private void showAroundWhenZero(Button button) throws IOException {
-        int x = GridPane.getRowIndex(button);
-        int y = GridPane.getColumnIndex(button);
+    private void showAroundWhenZero(MyButton button) throws IOException {
+        int x = button.getXCoordinate();
+        int y = button.getYCoordinate();
         for(int  i = x-1; i <= x+1; i++) {
             for (int j = y-1; j <= y+1; j++) {
                 if (j >= 0 && j < getBoardLength() && i >= 0 && i < getBoardWidth()) {
-                    Node node = getNodeByRowColumnIndex(gridPane, i, j);
-                    if (node != null && !(node.getId().equals("-2"))) {
-                        setTextForButton((Button) node);
-                        if (node.getId().equals("0")) {
-                            node.setId("-2");
-                            showAroundWhenZero((Button) node);
+                    MyButton spectatingButton = MyButton.getButton(i, j);
+                    if (spectatingButton != null && !(spectatingButton.getValue() == -2)) {
+                        setTextForButton(spectatingButton);
+                        if (spectatingButton.getValue() == 0) {
+                            spectatingButton.setValue(-2);
+                            showAroundWhenZero(spectatingButton);
                         }
                     }
                 }
@@ -190,42 +189,35 @@ public class GameController extends Board{
         }
     }
 
-    private Node getNodeByRowColumnIndex(GridPane gridPane, int row, int col) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
-                return node;
-            }
-        }
-        return null;
-    }
-
     private void checkGameStatus() throws IOException {
         int counterFlagOnMines = 0;
         int counterClickedButtons = 0;
         int fieldsInsteadOfMines = getBoardLength()*getBoardWidth() - getNumberOfMines();
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                String id = button.getId();
 
-                if (id.equals("-1") && button.getGraphic() != null) {
-                    counterFlagOnMines++;
-                }
-                if (id.equals("0") && button.getGraphic() == null) {
-                    return;
-                }
-                if(counterFlagOnMines == getNumberOfMines()) {
-                    showAlert("Congratulations!", "You've won!");
-                    return;
-                }
-                if((id.equals("-3") || id.equals("-2")) && button.getGraphic() == null) {
-                    counterClickedButtons++;
-                }
-                if(counterClickedButtons == fieldsInsteadOfMines) {
-                    showAlert("Congratulations!", "You've won!");
-                    return;
-                }
+        for (int i = 0; i < getBoardWidth(); i++) {
+            for (int j = 0; j < getBoardLength(); j++) {
+                MyButton button = MyButton.getButton(i, j);
+                if (button != null) {
+                    int buttonValue = button.getValue();
 
+                    if (buttonValue == -1 && button.getGraphic() != null) {
+                        counterFlagOnMines++;
+                    }
+                    if (buttonValue == 0 && button.getGraphic() == null) {
+                        return;
+                    }
+                    if (counterFlagOnMines == getNumberOfMines()) {
+                        showAlert("Congratulations!", "You've won!");
+                        return;
+                    }
+                    if ((buttonValue == -3 || buttonValue == -2) && button.getGraphic() == null) {
+                        counterClickedButtons++;
+                    }
+                    if (counterClickedButtons == fieldsInsteadOfMines) {
+                        showAlert("Congratulations!", "You've won!");
+                        return;
+                    }
+                }
             }
         }
     }

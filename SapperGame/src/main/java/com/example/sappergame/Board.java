@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Board {
     private final int numberOfMines = 99;
-    private final int boardWidth = 30;
+    private final int boardWidth = 24;
     private final int boardLength = 24;
     private int[][] board;
 
@@ -69,8 +69,8 @@ public class Board {
         return random.nextInt(max);
     }
 
-    public String getValueOfIndexFromBoard(int x, int y) {
-        return String.valueOf(board[x][y]);
+    public int getValueOfIndexFromBoard(int x, int y) {
+        return board[x][y];
     }
 
     public int getBoardWidth() {
