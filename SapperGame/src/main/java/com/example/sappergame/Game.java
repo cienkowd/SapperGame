@@ -16,7 +16,7 @@ public class Game extends Application {
         stage.setMinWidth(750);
         stage.setMinHeight(750);
         stage.setMaxWidth(790);
-        stage.setMaxHeight(790);
+        stage.setMaxHeight(800);
         stage.setResizable(false);
         stage.show();
     }

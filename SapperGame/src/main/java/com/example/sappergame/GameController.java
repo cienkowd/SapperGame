@@ -1,7 +1,6 @@
 package com.example.sappergame;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -20,10 +21,14 @@ public class GameController extends Board{
     @FXML
     private GridPane gridPane;
 
-    private boolean isFirstClick = true;
+    List<MyButton> neighbours = new ArrayList<>();
+
+    private boolean isFirstClick;
+
+    private final Board board = new Board();
 
     public void initialize() {
-        Board board = new Board();
+        isFirstClick = true;
         board.generateBoard();
         int a = getBoardWidth();
         int b = getBoardLength();
@@ -34,7 +39,6 @@ public class GameController extends Board{
                 gridPane.add(button, x, y);
             }
         }
-
     }
 
     private MyButton createButton(int x, int y) {
@@ -52,14 +56,33 @@ public class GameController extends Board{
 
     private void handleButtonClick(MouseEvent event) throws IOException {
         MyButton clickedButton = (MyButton) event.getSource();
-        if (event.getButton() == MouseButton.PRIMARY && whenYouCannotClickPrimary(clickedButton)) {
-            handleLeftClick(clickedButton);
-        }
-        else if (event.getButton() == MouseButton.SECONDARY && whenYouCannotClickOrWantCancelFlag(clickedButton)) {
-            if(!(clickedButton.getValue() == -2))
+        if(isFirstClick) {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                isFirstClick = false;
+                findNeighboursWhenFirstClick(clickedButton);
+                clickedButton.setValue(0);
+                board.setValueOfIndex(clickedButton.getXCoordinate(), clickedButton.getYCoordinate(), 0);
+                revealNeighbours(neighbours);
+                board.refreshBoard();
+                rewriteMinesAroundAgain();
+                System.out.println(board.countMines());
+                handleLeftClick(clickedButton);
+            }
+            else if (event.getButton() == MouseButton.SECONDARY) {
+                isFirstClick = false;
                 handleRightClick(clickedButton);
+            }
         }
-        checkGameStatus();
+        else {
+            if (event.getButton() == MouseButton.PRIMARY && whenYouCannotClickPrimary(clickedButton)) {
+                handleLeftClick(clickedButton);
+            }
+            else if (event.getButton() == MouseButton.SECONDARY && whenYouCannotClickOrWantCancelFlag(clickedButton)) {
+                if (!(clickedButton.getValue() == -2))
+                    handleRightClick(clickedButton);
+            }
+            checkGameStatus();
+        }
     }
     private void handleLeftClick(MyButton button) throws IOException {
         if (button.getValue() == 0) {
@@ -185,6 +208,42 @@ public class GameController extends Board{
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void findNeighboursWhenFirstClick(MyButton button) {
+        int x = button.getXCoordinate();
+        int y = button.getYCoordinate();
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i >= 0 && i < getBoardWidth() && j >= 0 && j < getBoardLength() && !(i == x && j == y)) {
+                    MyButton neighbourButton = MyButton.getButton(i, j);
+                    if (neighbourButton != null) {
+                        neighbours.add(neighbourButton);
+                    }
+                }
+            }
+        }
+    }
+
+    private void revealNeighbours(List<MyButton> neighbours) {
+        for (MyButton neighbourButton : neighbours) {
+            if (neighbourButton.getValue() == -1) {
+                int x = neighbourButton.getXCoordinate();
+                int y = neighbourButton.getYCoordinate();
+                board.setValueOfIndex(x,y,0);
+            }
+        }
+    }
+
+    private void rewriteMinesAroundAgain() {
+        for (int j = 0; j < getBoardWidth(); j++) {
+            for (int k = 0; k < getBoardLength(); k++) {
+                int newValue = board.getValueOfIndexFromBoard(j,k);
+                MyButton button = MyButton.getButton(j,k);
+                button.setValue(newValue);
             }
         }
     }

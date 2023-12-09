@@ -29,6 +29,26 @@ public class Board {
         }
     }
 
+    public void refreshBoard() {
+        int k = numberOfMines - countMines();
+        while (k > 0) {
+            int x = placeMineRandom(boardWidth);
+            int y = placeMineRandom(boardLength);
+            if (canPutTheMine(x, y)) {
+                board[x][y] = -1;
+                k--;
+            }
+        }
+
+        for (int i = 0; i < boardWidth; i++) {
+            for (int j = 0; j < boardLength; j++) {
+                if (board[i][j] != -1) {
+                    board[i][j] = minesAround(i, j);
+                }
+            }
+        }
+    }
+
     private boolean canPutTheMine(int x, int y) {
         if (board[x][y] == -1) {
             return false;
@@ -52,7 +72,7 @@ public class Board {
          return mines;
     }
 
-    private int countMines() {
+    public int countMines() {
         int mineCount = 0;
         for (int i = 0; i < boardWidth; i++) {
             for (int j = 0; j < boardLength; j++) {
@@ -84,4 +104,9 @@ public class Board {
     public int getNumberOfMines() {
         return numberOfMines;
     }
+
+    public void setValueOfIndex(int x, int y, int value) {
+        board[x][y] = value;
+    }
+
 }
