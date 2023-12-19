@@ -9,14 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
-public class GameController extends Board{
+public class GameController{
 
     @FXML
     private GridPane gridPane;
@@ -25,13 +24,19 @@ public class GameController extends Board{
 
     private boolean isFirstClick;
 
-    private final Board board = new Board();
+    private final GameMode mode = GuideController.getMode();
 
-    public void initialize() {
+    private final Board board = new Board(mode);
+
+    @FXML
+    private void initialize() {
+        generateBoard();
+    }
+    private void generateBoard() {
         isFirstClick = true;
         board.generateBoard();
-        int a = getBoardWidth();
-        int b = getBoardLength();
+        int a = board.getBoardWidth();
+        int b = board.getBoardLength();
         for (int x = 0; x < a; x++) {
             for (int y = 0; y < b; y++) {
                 MyButton button = createButton(x,y);
@@ -43,7 +48,7 @@ public class GameController extends Board{
 
     private MyButton createButton(int x, int y) {
         MyButton button = new MyButton(x,y);
-        button.setMinSize(30, 30);
+        button.setMinSize(mode.getButtonWidth(), mode.getButtonLength());
         button.setOnMouseClicked(event -> {
             try {
                 handleButtonClick(event);
@@ -100,6 +105,14 @@ public class GameController extends Board{
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(13);
             imageView.setFitHeight(13);
+            if(mode == MediumGameMode.INSTANCE) {
+                imageView.setFitWidth(19);
+                imageView.setFitHeight(19);
+            }
+            if(mode == EasyGameMode.INSTANCE) {
+                imageView.setFitWidth(39);
+                imageView.setFitHeight(39);
+            }
 
             button.setGraphic(imageView);
             showAlert("BOOOOMMMMM", "Game Over!");
@@ -107,46 +120,79 @@ public class GameController extends Board{
         }
         else if(button.getValue() == 0){
             button.getStyleClass().add("button0");
+
         }
         else if (button.getValue() == 1) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button1");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button1_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button1_2");
         }
         else if (button.getValue() == 2) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button2");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button2_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button2_2");
         }
         else if (button.getValue() == 3) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button3");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button3_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button3_2");
         }
         else if (button.getValue() == 4) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button4");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button4_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button4_2");
         }
         else if (button.getValue() == 5) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button5");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button5_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button5_2");
         }
         else if (button.getValue() == 6) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button6");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button6_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button6_2");
         }
         else if (button.getValue() == 7) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button7");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button7_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button7_2");
         }
         else if (button.getValue() == 8) {
             button.setText(button.getValueAsString());
             button.setValue(-3);
             button.getStyleClass().add("button8");
+            if(mode == MediumGameMode.INSTANCE)
+                button.getStyleClass().add("button8_1");
+            if(mode == EasyGameMode.INSTANCE)
+                button.getStyleClass().add("button8_2");
         }
     }
     private void handleRightClick(MyButton button) {
@@ -155,6 +201,14 @@ public class GameController extends Board{
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(13);
         imageView.setFitHeight(13);
+        if(mode == MediumGameMode.INSTANCE) {
+            imageView.setFitWidth(19);
+            imageView.setFitHeight(19);
+        }
+        if(mode == EasyGameMode.INSTANCE) {
+            imageView.setFitWidth(39);
+            imageView.setFitHeight(39);
+        }
 
         button.setGraphic(imageView);
     }
@@ -190,7 +244,7 @@ public class GameController extends Board{
         alertStage.initModality(Modality.APPLICATION_MODAL);
 
         alert.showAndWait();
-        Game.resetStage();
+        Game.resetGame();
     }
 
     private void showAroundWhenZero(MyButton button) throws IOException {
@@ -198,7 +252,7 @@ public class GameController extends Board{
         int y = button.getYCoordinate();
         for(int  i = x-1; i <= x+1; i++) {
             for (int j = y-1; j <= y+1; j++) {
-                if (j >= 0 && j < getBoardLength() && i >= 0 && i < getBoardWidth()) {
+                if (j >= 0 && j < board.getBoardLength() && i >= 0 && i < board.getBoardWidth()) {
                     MyButton spectatingButton = MyButton.getButton(i, j);
                     if (spectatingButton != null && !(spectatingButton.getValue() == -2)) {
                         setTextForButton(spectatingButton);
@@ -218,7 +272,7 @@ public class GameController extends Board{
 
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (i >= 0 && i < getBoardWidth() && j >= 0 && j < getBoardLength() && !(i == x && j == y)) {
+                if (i >= 0 && i < board.getBoardWidth() && j >= 0 && j < board.getBoardLength() && !(i == x && j == y)) {
                     MyButton neighbourButton = MyButton.getButton(i, j);
                     if (neighbourButton != null) {
                         neighbours.add(neighbourButton);
@@ -239,8 +293,8 @@ public class GameController extends Board{
     }
 
     private void rewriteMinesAroundAgain() {
-        for (int j = 0; j < getBoardWidth(); j++) {
-            for (int k = 0; k < getBoardLength(); k++) {
+        for (int j = 0; j < board.getBoardWidth(); j++) {
+            for (int k = 0; k < board.getBoardLength(); k++) {
                 int newValue = board.getValueOfIndexFromBoard(j,k);
                 MyButton button = MyButton.getButton(j,k);
                 button.setValue(newValue);
@@ -251,10 +305,10 @@ public class GameController extends Board{
     private void checkGameStatus() throws IOException {
         int counterFlagOnMines = 0;
         int counterClickedButtons = 0;
-        int fieldsInsteadOfMines = getBoardLength()*getBoardWidth() - getNumberOfMines();
+        int fieldsInsteadOfMines = board.getBoardLength()* board.getBoardWidth() - board.getNumberOfMines();
 
-        for (int i = 0; i < getBoardWidth(); i++) {
-            for (int j = 0; j < getBoardLength(); j++) {
+        for (int i = 0; i < board.getBoardWidth(); i++) {
+            for (int j = 0; j < board.getBoardLength(); j++) {
                 MyButton button = MyButton.getButton(i, j);
                 if (button != null) {
                     int buttonValue = button.getValue();
@@ -265,7 +319,7 @@ public class GameController extends Board{
                     if (buttonValue == 0 && button.getGraphic() == null) {
                         return;
                     }
-                    if (counterFlagOnMines == getNumberOfMines()) {
+                    if (counterFlagOnMines == board.getNumberOfMines()) {
                         showAlert("Congratulations!", "You've won!");
                         return;
                     }

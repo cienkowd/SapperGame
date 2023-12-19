@@ -9,9 +9,37 @@
     -fx-text-fill: blue;
     -fx-border-color: #778899
 }
+.button1_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: blue;
+    -fx-border-color: #778899
+}
+.button1_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: blue;
+    -fx-border-color: #778899
+}
 .button2 {
     -fx-background-color: #D3D3D3;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: green;
+    -fx-border-color: #778899
+}
+.button2_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: green;
+    -fx-border-color: #778899
+}
+.button2_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
     -fx-text-fill: green;
     -fx-border-color: #778899
@@ -23,9 +51,37 @@
     -fx-text-fill: red;
     -fx-border-color: #778899
 }
+.button3_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+    -fx-border-color: #778899
+}
+.button3_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+    -fx-border-color: #778899
+}
 .button4 {
     -fx-background-color: #D3D3D3;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660099;
+    -fx-border-color: #778899
+}
+.button4_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660099;
+    -fx-border-color: #778899
+}
+.button4_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
     -fx-text-fill: #660099;
     -fx-border-color: #778899
@@ -37,9 +93,37 @@
     -fx-text-fill: #660000;
     -fx-border-color: #778899
 }
+.button5_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660000;
+    -fx-border-color: #778899
+}
+.button5_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #660000;
+    -fx-border-color: #778899
+}
 .button6 {
     -fx-background-color: #D3D3D3;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #669966;
+    -fx-border-color: #778899
+}
+.button6_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #669966;
+    -fx-border-color: #778899
+}
+.button6_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
     -fx-text-fill: #669966;
     -fx-border-color: #778899
@@ -51,10 +135,45 @@
     -fx-text-fill: #006699;
     -fx-border-color: #778899
 }
+.button7_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #006699;
+    -fx-border-color: #778899
+}
+.button7_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #006699;
+    -fx-border-color: #778899
+}
 .button8 {
     -fx-background-color: #D3D3D3;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: #C66525;
     -fx-border-color: #778899
+}
+.button8_1 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C66525;
+    -fx-border-color: #778899
+}
+.button8_2 {
+    -fx-background-color: #D3D3D3;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C66525;
+    -fx-border-color: #778899
+}
+.buttonGuide {
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+}
+.background {
+    -fx-background-color: #D3D3D3;
 }

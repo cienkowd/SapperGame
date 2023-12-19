@@ -8,7 +8,7 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
     </padding>
-        <GridPane
-                fx:id="gridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <GridPane fx:id="gridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+
         </GridPane>
 </VBox>

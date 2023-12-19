@@ -3,28 +3,40 @@ package com.example.sappergame;
 import java.util.Random;
 
 public class Board {
-    private final int numberOfMines = 99;
-    private final int boardWidth = 24;
-    private final int boardLength = 24;
     private int[][] board;
+    private final int numberOfMines;
+    private final int boardWidth;
+    private final int boardLength;
+    private final GameMode gameMode;
+
+    public Board(GameMode mode) {
+        this.gameMode = mode;
+        this.numberOfMines = mode.getNumberOfMines();
+        this.boardWidth = mode.getBoardWidth();
+        this.boardLength = mode.getBoardLength();
+    }
 
     public void generateBoard() {
-        board = new int[boardWidth][boardLength];
+        if (gameMode == null) {
+            throw new IllegalStateException("GameMode must be set before generating the board.");
+        }
 
-        int i = numberOfMines;
+        board = new int[gameMode.getBoardWidth()][gameMode.getBoardLength()];
+
+        int i = gameMode.getNumberOfMines();
         while (i > 0) {
-            int x = placeMineRandom(boardWidth);
-            int y = placeMineRandom(boardLength);
+            int x = placeMineRandom(gameMode.getBoardWidth());
+            int y = placeMineRandom(gameMode.getBoardLength());
             if (canPutTheMine(x, y)) {
                 board[x][y] = -1;
                 i--;
             }
         }
 
-        for (int j = 0; j < boardWidth; j++) {
-            for (int k = 0; k < boardLength; k++) {
-                if(board[j][k] == 0)
-                    board[j][k] = minesAround(j,k);
+        for (int j = 0; j < gameMode.getBoardWidth(); j++) {
+            for (int k = 0; k < gameMode.getBoardLength(); k++) {
+                if (board[j][k] == 0)
+                    board[j][k] = minesAround(j, k);
             }
         }
     }
