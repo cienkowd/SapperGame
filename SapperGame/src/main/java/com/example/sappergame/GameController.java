@@ -70,7 +70,6 @@ public class GameController{
                 revealNeighbours(neighbours);
                 board.refreshBoard();
                 rewriteMinesAroundAgain();
-                System.out.println(board.countMines());
                 handleLeftClick(clickedButton);
             }
             else if (event.getButton() == MouseButton.SECONDARY) {
